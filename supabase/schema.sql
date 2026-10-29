@@ -124,7 +124,8 @@ begin
      or p_score > (p_duration * 500 + 500)
      or p_score < greatest(0, floor(p_duration * 5) - 3)
      or p_items > (p_duration * 8 + 20)
-     or p_level <> (floor(p_duration / 5)::integer + 1) then
+     or p_level < (floor(greatest(0, p_duration - 0.1) / 5)::integer + 1)
+     or p_level > (floor((p_duration + 0.1) / 5)::integer + 1) then
     raise exception 'Resultado fora dos limites permitidos';
   end if;
 
