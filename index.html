@@ -30,13 +30,10 @@ label{display:flex;align-items:center;gap:6px;color:var(--t2);font-size:.9em}lab
 .rw.h{color:var(--t2)}.rw.b1{color:var(--go);font-weight:600}.rw span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 kbd{background:var(--bg);border:1px solid var(--t2);border-radius:4px;padding:0 5px}
 @media (prefers-reduced-motion:reduce){.pop{animation-duration:.01s;animation-delay:.6s}}
-.account-panel{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;padding:6px 0}
-.account-panel .sub{flex-basis:100%;font-size:.82em;overflow-wrap:anywhere}
-.account-panel button{font-size:.73em;padding:7px}
-#authForm{display:flex;flex-direction:column;gap:9px}
-#authForm input{width:100%;font:inherit;background:var(--bg);color:var(--tx);border:1px solid var(--t2);border-radius:8px;padding:11px;text-align:left}
-#authForm input:focus-visible{outline:2px solid var(--cy)}
-#authMessage{min-height:2.4em;line-height:1.4}
+.entry-row{display:flex;gap:8px;align-items:center}
+.entry-row input{flex:1;min-width:0;font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--t2);border-radius:8px;padding:10px;text-align:center}
+.entry-row input:focus-visible{outline:2px solid var(--cy)}
+@media(max-width:420px){.entry-row{gap:5px}.entry-row input{padding:8px 5px;font-size:.9em}}
 #rk{overflow-y:auto;max-height:min(50dvh,300px);min-height:52px}
 #rkp .pn{width:min(96vw,560px)} 
 #rkp .rw{grid-template-columns:2em minmax(65px,1fr) 4.6em 4.5em 3em 3em}
@@ -47,8 +44,11 @@ kbd{background:var(--bg);border:1px solid var(--t2);border-radius:4px;padding:0 
 <div id="mi"></div>
 <div class="ov on" id="menu"><div class="pn"><h1>COSMIC SPRINT</h1><p class="sub"><i>Missão LIGO — Corra pelo universo. Descubra o invisível.</i></p>
 <p class="sub">Explore o universo, colete símbolos científicos e encare desafios inspirados na investigação das ondas gravitacionais.</p>
-<div class="account-panel"><p class="sub" id="accountInfo" role="status">Verificando conta...</p><button id="baccount">ENTRAR / CADASTRAR</button><button id="blogout" hidden>SAIR</button></div>
-<input type="text" id="nk" maxlength="12" placeholder="Seu apelido" aria-label="Apelido" autocomplete="nickname">
+<div class="entry-row">
+  <input type="text" id="fn" maxlength="32" placeholder="Nome" aria-label="Nome" autocomplete="given-name" required>
+  <input type="text" id="ln" maxlength="32" placeholder="Sobrenome" aria-label="Sobrenome" autocomplete="family-name" required>
+</div>
+<p class="sub" style="font-size:.8em" id="playerStatus" role="status" aria-live="polite">Informe seu nome e sobrenome para jogar. Sem cadastro.</p>
 <p>Seu recorde global: <b class="go" id="mb">0</b></p>
 <button class="pr" id="bst">INICIAR MISSÃO</button>
 <div class="row"><button id="brk">RANKING</button><button id="bhl">COMO JOGAR</button><button id="bau" aria-pressed="false">🔊 SOM</button></div>
@@ -57,15 +57,7 @@ kbd{background:var(--bg);border:1px solid var(--t2);border-radius:4px;padding:0 
 <div class="ov" id="hlp"><div class="pn"><h2>COMO JOGAR</h2>
 <p><kbd>A</kbd>/<kbd>←</kbd> faixa à esquerda · <kbd>D</kbd>/<kbd>→</kbd> faixa à direita<br><kbd>W</kbd>/<kbd>↑</kbd> pular (meteoritos baixos) · <kbd>S</kbd>/<kbd>↓</kbd> deslizar (portais suspensos)<br><kbd>P</kbd>/<kbd>Esc</kbd> pausar · <kbd>M</kbd> som</p>
 <p class="sub">Colete símbolos: onda (10), átomo (15), estrela (20), constelação (25), núcleo (50). Sequências de 5, 10 e 20 dão bônus. A cada 5 s a velocidade aumenta. Barreiras vermelhas e destroços exigem trocar de faixa.</p><button id="hb">VOLTAR</button></div></div>
-<div class="ov" id="rkp"><div class="pn"><h2>RANKING GLOBAL AO VIVO</h2><div class="rw h"><span>#</span><span>Apelido</span><span>Pontos</span><span>Tempo</span><span>Itens</span><span>Vel.</span></div><div id="rk"></div><p class="sub" id="ac"></p><div class="row"><button id="rb">VOLTAR</button><button id="rc">ATUALIZAR</button></div></div></div>
-<div class="ov" id="auth"><div class="pn"><h2 id="authTitle">ENTRAR NA MISSÃO</h2>
-<p class="sub">Uma conta permite salvar seu recorde e aparecer no ranking global em qualquer dispositivo.</p>
-<form id="authForm"><input id="authEmail" type="email" required autocomplete="email" maxlength="254" placeholder="Seu e-mail" aria-label="E-mail">
-<input id="authPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="Sua senha" aria-label="Senha">
-<button class="pr" id="authSubmit" type="submit">ENTRAR</button></form>
-<p id="authMessage" class="sub" role="status" aria-live="polite"></p>
-<div class="row"><button id="authToggle">CRIAR CONTA</button><button id="authReset">RECUPERAR SENHA</button></div>
-<button id="authBack">VOLTAR</button></div></div>
+<div class="ov" id="rkp"><div class="pn"><h2>RANKING GLOBAL AO VIVO</h2><div class="rw h"><span>#</span><span>Jogador</span><span>Pontos</span><span>Tempo</span><span>Itens</span><span>Vel.</span></div><div id="rk"></div><p class="sub" id="ac"></p><div class="row"><button id="rb">VOLTAR</button><button id="rc">ATUALIZAR</button></div></div></div>
 <div class="ov" id="pau"><div class="pn"><h2>PAUSA</h2><button class="pr" id="p1">CONTINUAR</button><button id="p2">REINICIAR</button><button id="p3">MENU INICIAL</button></div></div>
 <div class="ov" id="go"><div class="pn"><h2 style="color:var(--rd)">FIM DE MISSÃO</h2><div class="go" style="font:900 clamp(26px,7vmin,44px) Orbitron" id="gs">0</div><p id="gr"></p><p class="sub" id="gt"></p><p id="gp"></p><p class="sub" id="gf" style="font-size:.9em"></p><button id="gretry" hidden>TENTAR SALVAR NOVAMENTE</button><div class="row"><button class="pr" id="g1">JOGAR NOVAMENTE</button><button id="g2">MENU INICIAL</button></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -146,7 +138,7 @@ function chk(){for(const[a,n,f]of AD)if(!ach[a]&&f()){ach[a]=1;SV('cs_ach',ach);
 /* jogo */
 const cmp=(a,b)=>b.s-a.s||b.t-a.t||b.i-a.i,FACTS=['Ondas gravitacionais são ondulações do espaço-tempo, previstas por Einstein pela relatividade geral há mais de cem anos.','O LIGO usa interferômetros a laser com braços de 4 km para medir variações minúsculas, bem menores que um próton.','A primeira detecção (GW150914) foi registrada em 14/09/2015, veio da fusão de dois buracos negros e foi anunciada em 11/02/2016.','Gabriela González foi porta-voz da Colaboração Científica LIGO. A detecção foi fruto do trabalho de uma grande colaboração internacional.'];
 function reset(){obs.concat(its).forEach(o=>scene.remove(o.m));obs=[];its=[];t=0;score=0;items=0;waves=0;dodged=0;combo=0;speed=CFG.v0;lastLv=0;maxLv=0;lane=0;vy=0;py=0;slideT=0;spawnD=0;goT=-1;saved=false;cT=0;P.position.set(0,0,0);P.rotation.set(0,0,0)}
-function start(){ia();document.activeElement&&document.activeElement.blur();nick=($('nk').value.replace(/[^\p{L}\p{N} _-]/gu,'').trim().slice(0,12))||'Astronauta';SV('cs_nick',nick);reset();state='PLAYING';show('');ui();sfx.start()}
+function start(){toast('Conexão de ranking não disponível. Verifique a internet.');}
 function toMenu(){reset();speed=8;state='MENU';show('menu');ui();$('mb').textContent=best}
 function show(id){document.querySelectorAll('.ov').forEach(e=>e.classList.toggle('on',e.id===id))}
 function ui(){const p=state==='PLAYING'||state==='PAUSED';$('hud').style.display=p?'flex':'none';$('mi').style.display=p?'block':'none'}
@@ -161,9 +153,7 @@ for(let i=0;i<c;i++)addI(k,il*3,z+gap/2-(c-1)*1.1+i*2.2);spawnD=gap}
 function col(it){it.c=true;scene.remove(it.m);items++;if(it.k===0)waves++;const v=VAL[it.k];score+=v;combo++;cT=.3;burst(P.position.x,1.3,0,COL[it.k]);pop('+'+v,P.position.x,2.4,0);sfx.item(it.k);
 const b=CFG.combo[combo];if(b){score+=b;pop('COMBO! +'+b,P.position.x,3,0,'#00E5FF');sfx.combo()}if(it.k===4)fl('rgba(255,209,102,.15)')}
 function crash(){state='GAME_OVER';goT=.9;shake=.6;fl('rgba(255,85,119,.35)');burst(P.position.x,1.2,0,0xff5577,24);sfx.crash();finish()}
-function finish(){if(saved)return;saved=true;const s=Math.floor(score),rec=s>best&&best>0;if(s>best){best=s;SV('cs_best',best)}if(rec&&!ach.rec){ach.rec=1;SV('cs_ach',ach)}
-const e={n:nick||'Astronauta',s,t:+t.toFixed(1),i:items,l:maxLv+1,d:new Date().toISOString()};rank.push(e);rank.sort(cmp);const pos=rank.indexOf(e)+1;rank=rank.slice(0,10);SV('cs_rank',rank);
-$('gs').textContent=s;$('gr').textContent=rec?'🏆 Novo recorde pessoal!':'Recorde pessoal: '+best;$('gt').textContent='Tempo: '+t.toFixed(1)+'s · Símbolos: '+items+' · Nível: '+(maxLv+1);$('gp').textContent=pos<=10?'Posição no ranking local: #'+pos:'Fora do top 10 local';$('gf').textContent=FACTS[Math.floor(R()*FACTS.length)]}
+function finish(){saved=true;toast('Servidor de ranking indisponível.');}
 function update(dt){t+=dt;const lv=Math.floor(t/CFG.step);maxLv=lv;const tg=Math.min(CFG.vmax,CFG.v0+CFG.inc*lv);speed+=(tg-speed)*Math.min(1,dt*3);if(lv>lastLv){lastLv=lv;sfx.up();toast('⚡ Nível '+(lv+1))}
 score+=CFG.surv*dt;const sp=speed*dt;
 const tx=lane*3,dx=tx-P.position.x;P.position.x+=dx*Math.min(1,dt*14);tilt=-dx*.12;
@@ -207,10 +197,10 @@ $('bst').onclick=start;$('g1').onclick=start;$('p2').onclick=()=>{state='MENU';s
 $('brk').onclick=()=>{ia();rr();show('rkp')};$('rb').onclick=()=>show('menu');$('bhl').onclick=()=>{ia();show('hlp')};$('hb').onclick=()=>show('menu');
 $('rc').onclick=()=>{if(confirm('Apagar todos os recordes locais?')){rank=[];best=0;ach={};SV('cs_rank',rank);SV('cs_best',0);SV('cs_ach',ach);rr();$('mb').textContent=0}};
 $('bau').onclick=mute;$('vm').oninput=e=>{mv.m=+e.target.value;ia();au()};$('vs').oninput=e=>{mv.s=+e.target.value;ia();au();tone(660,.1)};
-$('nk').value=nick;$('mb').textContent=best;au();
+$('mb').textContent=best;au();
 addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;ia();const k=e.key.toLowerCase();if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();if(e.repeat)return;
 if(k==='m')return mute();if(k==='p'||k==='escape')return pause();if(state!=='PLAYING')return;
 if(k==='a'||k==='arrowleft')mvL(-1);else if(k==='d'||k==='arrowright')mvL(1);else if(k==='w'||k==='arrowup')jump();else if(k==='s'||k==='arrowdown')slide()});
 addEventListener('blur',()=>{if(state==='PLAYING')pause()});document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='PLAYING')pause()});
 requestAnimationFrame(loop);
-</script><script src="./auth.js"></script></body></html>
+</script><script src="./guest.js"></script></body></html>
