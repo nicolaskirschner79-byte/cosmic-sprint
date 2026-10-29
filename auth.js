@@ -90,7 +90,7 @@
       entries = [];
       best = 0;
       rank = [];
-      if (!user && state === 'PLAYING') pause();
+      if (changed && (state === 'PLAYING' || state === 'PAUSED')) toMenu();
       if (user) { subscribeRanking(); await refreshRanking(); }
     }
     renderAccount();
@@ -254,7 +254,7 @@
     if (db) {
       const { error } = await db.auth.signOut();
       if (error) toast('Não foi possível sair: ' + error.message);
-      else { await applySession(null); show('menu'); }
+      else { await applySession(null); toMenu(); }
     }
   };
   best = 0;
