@@ -1,6 +1,8 @@
-/* Configuração PUBLICÁVEL do projeto Supabase próprio do Cosmic Sprint.
-   Preencher depois da criação do projeto. NUNCA cole uma secret/service_role key. */
+/* Configuração pública do projeto Cosmic Sprint - Ranking Global.
+   Supabase Project: gvkwjlokvwezuooefrqk (São Paulo)
+   A chave publicável pode ser usada no navegador; jamais use service_role ou chave secreta aqui.
+*/
 window.COSMIC_SUPABASE = {
-  url: "https://COLOQUE-SEU-PROJECT-REF.supabase.co",
-  publishableKey: "COLOQUE_SUA_CHAVE_PUBLICAVEL_AQUI"
+  url: "https://gvkwjlokvwezuooefrqk.supabase.co",
+  publishableKey: "sb_publishable_DGUUz313MOIDgAtOVcr45g_jfFXr6il"
 };
