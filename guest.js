@@ -176,7 +176,7 @@
     if (pending.player_id !== player.id) return;
     saving = true;
     el('gretry').hidden = true;
-    if (el('go').classList.contains('on')) el('gp').textContent = 'Salvando resultado global...';
+    el('gp').textContent = 'Salvando resultado global...';
     try {
       const { error } = await client.rpc('cosmic_guest_finish_run', {
         p_player_id: player.id,
@@ -192,13 +192,11 @@
       erase(PENDING_KEY);
       await loadRanking();
       const position = results.findIndex(x => x.user_id === player.id);
-      if (el('go').classList.contains('on')) {
-        el('gp').textContent = position >= 0
-          ? '🏆 Seu recorde está no ranking global! Posição: #' + (position + 1)
-          : 'Resultado salvo. Você está fora dos 100 primeiros.';
-      }
+      el('gp').textContent = position >= 0
+        ? '🏆 Seu recorde está no ranking global! Posição: #' + (position + 1)
+        : 'Resultado salvo. Você está fora dos 100 primeiros.';
     } catch (error) {
-      if (el('go').classList.contains('on')) el('gp').textContent = 'Não foi possível salvar: ' + error.message;
+      el('gp').textContent = 'Não foi possível salvar: ' + error.message;
       el('gretry').hidden = false;
     } finally { saving = false; }
   }
