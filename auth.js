@@ -20,7 +20,7 @@
   let runId = null;
   let pending = null;
   let sending = false;
-  const safeNick = value => (value || '').replace(/[^\p{L}\p{N} _-]/gu, '').trim().slice(0, 12) || 'Astronauta';
+  const safeNick = value => { const name = (value || '').replace(/[^\p{L}\p{N} _-]/gu, '').trim().slice(0, 12); return name.length >= 2 ? name : 'Astronauta'; };
   const own = () => user && entries.find(e => e.user_id === user.id);
   const status = msg => { el('accountInfo').textContent = msg; };
   const authNotice = msg => { el('authMessage').textContent = msg; };
@@ -65,7 +65,15 @@
         .limit(100);
       if (error) throw error;
       entries = data || [];
-      best = Number(own()?.best_score || 0);
+      const myRecord = own();
+      if (myRecord) best = Number(myRecord.best_score);
+      else {
+        // O recorde pessoal continua acessível mesmo fora do Top 100.
+        const { data: personal, error: personalError } = await db.from('leaderboard')
+          .select('best_score').eq('user_id', user.id).maybeSingle();
+        if (personalError) throw personalError;
+        best = Number(personal?.best_score || 0);
+      }
       renderRanking();
       renderAccount();
     } catch (err) {
