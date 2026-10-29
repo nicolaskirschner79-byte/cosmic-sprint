@@ -9,32 +9,33 @@ Jogo de corrida espacial da feira de ciências, com **login global** e **ranking
 - ✅ Ranking global com **um melhor recorde por conta** (até 100 resultados consultados, 50 exibidos).
 - ✅ WebSocket via Supabase Realtime e atualização de contingência a cada 15 segundos.
 - ✅ SQL para tabelas, validação de sessões, acesso restrito e atualizações em tempo real.
-- ⏳ **Pendente de ativação**: criar um projeto Supabase separado, aplicar o SQL e inserir a URL e chave publicável em `config.js`.
+- ✅ **Supabase ativo**: projeto próprio criado em São Paulo; migrações SQL e publicação Realtime aplicadas.
+- ✅ `config.js` conectado à URL e chave **publicável** do projeto.
+- ⚠️ Ainda é necessário testar ponta a ponta cadastro, login e duas partidas em navegadores diferentes, além de publicar o site e ajustar URLs de recuperação de senha.
 
 ## Estrutura
 
 - `index.html`: jogo Three.js e interface de autenticação/ranking.
 - `auth.js`: Supabase Auth, sincronização de recordes e atualização em tempo real.
-- `config.js`: configurações públicas do projeto (atualmente com valores de exemplo).
+- `config.js`: URL e chave publicável configuradas para `gvkwjlokvwezuooefrqk`.
 - `supabase/schema.sql`: tabelas, políticas de acesso, RPCs e publicação Realtime.
 
-## Ativar o backend
+## Supabase conectado
 
-1. Crie um **novo** projeto Supabase, preferencialmente na região São Paulo (`sa-east-1`).
-2. No **SQL Editor**, execute todo o conteúdo de `supabase/schema.sql`.
-3. No menu **Project Settings → API Keys**, use a chave **publishable** (`sb_publishable_...`), nunca uma secret key.
-4. Atualize `config.js`:
+- Projeto: **Cosmic Sprint - Ranking Global**
+- ID: `gvkwjlokvwezuooefrqk`
+- Região: `sa-east-1` (São Paulo)
+- Painel: https://supabase.com/dashboard/project/gvkwjlokvwezuooefrqk
+- URL do banco: `https://gvkwjlokvwezuooefrqk.supabase.co`
+- Migrações: tabelas, RLS, RPCs `start_run`/`finish_run` e publicação Realtime aplicadas.
+- Confirmação SQL: 2 tabelas, 2 com RLS, 2 funções e 1 tabela publicada no Realtime.
 
-```js
-window.COSMIC_SUPABASE = {
-  url: "https://SEU-PROJECT-REF.supabase.co",
-  publishableKey: "sb_publishable_SUA_CHAVE_PUBLICA"
-};
-```
+### Antes de disponibilizar aos jogadores
 
-5. Em **Authentication → Providers**, confira a opção de login por e-mail/senha. A confirmação de e-mail pode estar ativada.
-6. Em **Authentication → URL Configuration**, defina a URL pública do site e permita o retorno à mesma página para recuperar senha.
-7. Publique os arquivos como um site estático (GitHub Pages, Vercel ou semelhante). Para autenticação/redefinição, use HTTPS no domínio publicado.
+1. Publique o site `index.html` com `auth.js` e `config.js` no mesmo diretório, via HTTPS, e configure **Authentication → URL Configuration** com o endereço público definitivo e o redirecionamento de recuperação de senha.
+2. Confirme o provedor de e-mail em **Authentication → Providers** e configure um serviço de envio de e-mails confiável, se o público ultrapassar os limites de e-mail padrão do Supabase.
+3. Teste cadastro com confirmação de e-mail, login, uma partida e atualização do ranking com duas contas em navegadores separados.
+4. O SQL versionado em `supabase/schema.sql` é um registro para reconstruir a estrutura em outro ambiente; **não o execute de novo** no projeto ativo sem avaliar as alterações.
 
 ## Funcionamento
 
