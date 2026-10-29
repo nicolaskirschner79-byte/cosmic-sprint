@@ -20,6 +20,25 @@ Jogo de corrida espacial da feira de ciências, com **login global** e **ranking
 - `config.js`: URL e chave publicável configuradas para `gvkwjlokvwezuooefrqk`.
 - `supabase/schema.sql`: tabelas, políticas de acesso, RPCs e publicação Realtime.
 
+## Painel administrativo em HTML único
+
+O arquivo [`dashboard.html`](dashboard.html) contém **HTML, CSS e JavaScript no mesmo arquivo**. Não há formulário de cadastro e nenhuma senha fica embutida no repositório. Utiliza a URL e a chave **publicável** do Supabase; requer internet para carregar a biblioteca `supabase-js`.
+
+**Funcionalidades:** login de administrador, métricas globais, gráfico diário (14 dias), top 5, busca e ordenação de jogadores, exportação CSV, exclusão de um recorde, limpeza completa com confirmação digitada, últimas 300 sessões, auditoria das exclusões e sincronização via Supabase Realtime com consulta automática de contingência a cada 30 segundos.
+
+**As políticas, funções e gatilhos administrativos já estão instalados no banco principal.** O banco autoriza **somente o e-mail administrativo configurado**, se a conta de autenticação possuir e-mail confirmado.
+
+### Primeiro acesso do administrador
+
+**ATENÇÃO: a conta administrativa ainda não foi criada no Supabase Auth.** O HTML não possui fluxo de cadastro por escolha de projeto; portanto, o administrador precisa ser provisionado fora dele:
+
+1. Abra [Supabase Authentication → Users](https://supabase.com/dashboard/project/gvkwjlokvwezuooefrqk/auth/users).
+2. Clique em **Add user** (ou **Invite user**) e crie a conta correspondente ao e-mail de administrador previamente autorizado. Ao usar convite, o administrador define a própria senha por e-mail.
+3. Confirme/verifique o e-mail no Supabase Auth e defina uma senha forte e exclusiva. Não inclua senhas em HTML, SQL versionado, repositório GitHub ou histórico de commits.
+4. Hospede `dashboard.html` em HTTPS (por exemplo, na mesma origem do jogo) e faça login com essa conta. A autorização para excluir ranking é verificada novamente pelo banco em cada operação.
+
+**Segurança:** excluir um recorde ou limpar o ranking só remove linhas de `leaderboard`; o histórico `game_sessions` fica intacto. As ações ficam registradas em tabela privada. Antes de utilizar em produção, teste login e exclusões com uma conta administrativa real. O painel tem chave pública, **nunca** chave `service_role`.
+
 ## Supabase conectado
 
 - Projeto: **Cosmic Sprint - Ranking Global**
